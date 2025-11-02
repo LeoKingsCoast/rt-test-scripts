@@ -1,0 +1,4 @@
+set xlabel "Latency (us)"
+set yrange [0.85:*]
+set logscale y
+set terminal png

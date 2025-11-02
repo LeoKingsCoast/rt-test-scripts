@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+infile=$1
+outfile=$2
+
+if [[ -z "$infile" || -z "$outfile" ]]; then
+    echo "Usage: gen-hist INFILE OUTFILE.png"
+    exit 1
+fi
+
+data=$(grep -v "^#" "$infile" | tr " " "\t")
+
+for i in $(seq 1 "$(nproc)"); do
+    echo "$data" | cut -f1,"$((i + 1))" > hist"$i"
+done
+
+settings=$(cat plot-settings)
+
+gnuplot_cmd="${settings}
+set output \"${outfile}\"
+plot "
+
+for i in $(seq 1 "$(nproc)"); do
+    if [[ "$i" != 1 ]]; then
+        gnuplot_cmd+=", "
+    fi
+
+    gnuplot_cmd+="\"hist$i\" using 1:2 title \"CPU$((i - 1))\" with histeps"
+done
+
+echo "$gnuplot_cmd" | gnuplot
+
+rm hist*
