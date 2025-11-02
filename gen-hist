@@ -3,8 +3,14 @@
 infile=$1
 outfile=$2
 
+settings_file_name="plot-settings"
+
+for path in "./$settings_file_name" "$HOME/$settings_file_name" "/etc/$settings_file_name"; do
+    [[ -e "$path" ]] && settings_file="$path" && break
+done || { echo "[Error]: settings file not found." >&2; exit 1; }
+
 if [[ -z "$infile" || -z "$outfile" ]]; then
-    echo "Usage: gen-hist INFILE OUTFILE.png"
+    echo "Usage: gen-hist INFILE OUTFILE.png" >&2
     exit 1
 fi
 
@@ -14,7 +20,7 @@ for i in $(seq 1 "$(nproc)"); do
     echo "$data" | cut -f1,"$((i + 1))" > hist"$i"
 done
 
-settings=$(cat plot-settings)
+settings=$(cat "$settings_file")
 
 gnuplot_cmd="${settings}
 set output \"${outfile}\"

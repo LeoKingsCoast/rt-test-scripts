@@ -26,3 +26,7 @@ Linux system. This was made to be used inside [meta-tests-preempt-rt](https://gi
     gen-hist data hist.png
     ```
 
+    For the command to run, the `plot-settings` file must be available. The
+    script looks for it in the current directory, inside the HOME directory
+    and inside `/etc`, in this order.
+
