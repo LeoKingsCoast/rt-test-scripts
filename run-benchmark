@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+while getopts "qt:" opt; do
+    case "$opt" in
+        q) quiet=true ;;
+    esac
+done
+shift $((OPTIND - 1))
+
+outfile=$1
+
+if [[ -z "$outfile" ]]; then
+    echo -e "Usage: run-benchmark [-q] OUTFILE"
+    echo -e "\n\t-q\tQuiet output while the test is running"
+    exit 1
+fi
+
+cyclictest -S -p99 -i1000 -m -D 5s -h500 ${quiet:+-q} | tee >(sed -n '/# Histogram/,$p' > ${outfile})
