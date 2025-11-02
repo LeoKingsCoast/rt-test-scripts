@@ -6,6 +6,7 @@ Linux system. This was made to be used inside [meta-tests-preempt-rt](https://gi
 ## Dependencies
 
 - [rt-tests](https://wiki.linuxfoundation.org/realtime/documentation/howto/tools/rt-tests)
+- [gnuplot](http://www.gnuplot.info/)
 
 ## Running the Scripts
 
@@ -28,5 +29,8 @@ Linux system. This was made to be used inside [meta-tests-preempt-rt](https://gi
 
     For the command to run, the `plot-settings` file must be available. The
     script looks for it in the current directory, inside the HOME directory
-    and inside `/etc`, in this order.
+    and inside `/etc`, in this order. Additionally, you can pass your own
+    settings file with the `-s` flag.
+
+    - `-s SETTINGSFILE`: Generate a histogram with a custom settings file. The settings file lines must be [gnuplot](http://www.gnuplot.info/) commands
 

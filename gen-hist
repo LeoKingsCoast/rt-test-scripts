@@ -1,13 +1,23 @@
 #!/usr/bin/env bash
 
+while getopts "s:" opt; do
+    case "$opt" in
+        s) settings_file=$OPTARG ;;
+    esac
+done
+shift $((OPTIND - 1))
+
 infile=$1
 outfile=$2
 
-settings_file_name="plot-settings"
+if [[ -z "$settings_file" ]]; then
+    settings_file_name="plot-settings"
 
-for path in "./$settings_file_name" "$HOME/$settings_file_name" "/etc/$settings_file_name"; do
-    [[ -e "$path" ]] && settings_file="$path" && break
-done || { echo "[Error]: settings file not found." >&2; exit 1; }
+    for path in "./$settings_file_name" "$HOME/$settings_file_name" "/etc/$settings_file_name"; do
+        [[ -e "$path" ]] && settings_file="$path" && break
+    done || { echo "[Error]: settings file not found." >&2; exit 1; }
+fi
+
 
 if [[ -z "$infile" || -z "$outfile" ]]; then
     echo "Usage: gen-hist INFILE OUTFILE.png" >&2
