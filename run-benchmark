@@ -3,6 +3,7 @@
 while getopts "qt:" opt; do
     case "$opt" in
         q) quiet=true ;;
+        t) time=$OPTARG ;;
     esac
 done
 shift $((OPTIND - 1))
@@ -15,4 +16,4 @@ if [[ -z "$outfile" ]]; then
     exit 1
 fi
 
-cyclictest -S -p99 -i1000 -m -D 5s -h500 ${quiet:+-q} | tee >(sed -n '/# Histogram/,$p' > ${outfile})
+cyclictest -S -p99 -i1000 -m -D ${time:-10s} -h500 ${quiet:+-q} | tee >(sed -n '/# Histogram/,$p' > ${outfile})
