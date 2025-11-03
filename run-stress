@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Run all stresses in a subshell, so we can stop all of them with Ctrl+C
+(
+
+# Stress all CPUs at 80%
+# Spawn 4 workers with randomly scheduling child processes
+# Spawn 8 workers with timer events of 100kHz
+# Spawn 2 workers calling mmap/munmap, writing to 1G of memory. Specifically memory that is not paged in so it causes page faults
+# Run for 10 minutes
+
+stress-ng \
+    --cpu 0 --cpu-load 80 \
+    --schedmix 4 \
+    --timer 8 --timer-freq 100000 \
+    --vm 2 --vm-bytes 1G --page-in \
+    -t 10m &
+
+)
