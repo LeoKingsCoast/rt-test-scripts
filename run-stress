@@ -16,4 +16,15 @@ stress-ng \
     --vm 2 --vm-bytes 1G --page-in \
     -t 10m &
 
+# Create threads with priority inversion
+pi_stress \
+    --groups 10 \
+    --inversions 5000 \
+    --mlockall \
+    --duration 10m \
+    --verbose &
+
+# Create processes with priority inversion
+pip_stress &
+
 )
