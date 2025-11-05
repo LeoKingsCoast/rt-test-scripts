@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+time=$1
+
 # Run all stresses in a subshell, so we can stop all of them with Ctrl+C
 (
 
@@ -13,18 +15,9 @@ stress-ng \
     --cpu 0 --cpu-load 80 \
     --schedmix 4 \
     --timer 8 --timer-freq 100000 \
-    --vm 2 --vm-bytes 1G --page-in \
-    -t 10m &
+    --vm 2 --vm-bytes 500M --page-in \
+    -t ${time:-1m} &
 
-# Create threads with priority inversion
-pi_stress \
-    --groups 10 \
-    --inversions 5000 \
-    --mlockall \
-    --duration 10m \
-    --verbose &
-
-# Create processes with priority inversion
-pip_stress &
+wait
 
 )
