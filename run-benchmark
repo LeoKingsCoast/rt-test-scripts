@@ -1,18 +1,20 @@
 #!/usr/bin/env bash
 
-while getopts "qt:" opt; do
+while getopts "hqt:" opt; do
     case "$opt" in
         q) quiet=true ;;
         t) time=$OPTARG ;;
+        h) help=true
     esac
 done
 shift $((OPTIND - 1))
 
 outfile=$1
 
-if [[ -z "$outfile" ]]; then
+if [[ -z "$outfile" ]] || [[ $help ]]; then
     echo -e "Usage: run-benchmark [-q] OUTFILE"
     echo -e "\n\t-q\tQuiet output while the test is running"
+    echo -e "\n\t[-t TIME]\tSelect a time for the benchmark to run (defaults to 1m)"
     exit 1
 fi
 

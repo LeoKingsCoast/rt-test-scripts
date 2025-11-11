@@ -10,6 +10,14 @@ Linux system. This was made to be used inside [meta-tests-preempt-rt](https://gi
 
 ## Running the Scripts
 
+1. Optionally run the `run-stress` script to stress your system before
+cyclictest. You can pass the time for the stress to run as an argument,
+defaults to 1 minute.
+
+    ```bash
+    run-stress 3h
+    ```
+
 1. Run `run-benchmark` to output a `ciclictest` histogram to an output file:
 
     ```bash
